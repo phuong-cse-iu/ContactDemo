@@ -14,7 +14,7 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var sectionTitles:[SectionTitle] = []
     var listOfContacts:[Contact] = []
     var contactDict: Dictionary<String, [Contact]>?
-    
+    var sections: [(index: Int, length: Int, title: String)] = Array()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,77 +33,18 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             listOfContacts = try context.fetch(Contact.fetchRequest())
        
-            
+            listOfContacts.sort(by: { (contact1, contact2) -> Bool in
+                contact1.name! < contact2.name!
+            })
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
             
-            
-            var contactsA = [Contact]()
-            var contactsE = [Contact]()
-            var contactsI = [Contact]()
-            var contactsO = [Contact]()
-            var contactsP = [Contact]()
-            var contactsT = [Contact]()
-            var contactsU = [Contact]()
-            var contactsW = [Contact]()
-            var contactsZ = [Contact]()
-            var contactsNone = [Contact]()
-
-            
-            
-            for contact in listOfContacts {
-                let firstCharOfName: Character = contact.name![(contact.name?.startIndex)!]
-                switch firstCharOfName {
-                case "A":
-                    contactsA.append(contact)
-                    contactDict?["A"] = contactsA
-                    break
-                case "E":
-                    
-                    contactsE.append(contact)
-                    contactDict?["E"] = contactsE
-                    break
-                case "I":
-                    
-                    contactsI.append(contact)
-                    contactDict?["I"] = contactsI
-                    break
-                case "O":
-                    contactsO.append(contact)
-                    contactDict?["O"] = contactsO
-                    break
-                case "P":
-                   
-                    contactsP.append(contact)
-                    contactDict?["P"] = contactsP
-                    break
-                case "T":
-                    
-                    contactsT.append(contact)
-                    contactDict?["T"] = contactsT
-                    break
-                case "U":
-                    
-                    contactsU.append(contact)
-                    contactDict?["U"] = contactsU
-                    break
-                case "W":
-                    
-                    contactsW.append(contact)
-                    contactDict?["W"] = contactsW
-                    break
-                case "Z":
-                    
-                    contactsZ.append(contact)
-                    contactDict?["Z"] = contactsZ
-                    break
-                default:
-                    contactsNone.append(contact)
-                    contactDict?["None"] = contactsNone
-                }
-                
+            var index = 0
+            for i in 0..<listOfContacts.count {
+                sections.append((index: i, length: Int, title: listOfContacts[i].name[listOfContacts[i].name?.startIndex]))
             }
-            print(contactDict?["P"]?[0])
+            
+            
         } catch {
             print("Fetching error")
         }
@@ -164,13 +105,13 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // section titles 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        let sectionTitles = ["a", "b", "c", "d"]
+        let sectionTitles = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]
         
         return sectionTitles
     }
     
    
-
+    
 
 }
 
